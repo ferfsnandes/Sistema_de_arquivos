@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-9a3dcf64cb6f52f5333c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "sistema_de_arquivos",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "sistema_de_arquivos::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sistema_de_arquivos-Debug-cb7a3bd1fa4fedc0469a.json",
+					"name" : "sistema_de_arquivos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sistema_de_arquivos_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sistema_de_arquivos_autogen-Debug-24ab0558abf75a77a340.json",
+					"name" : "sistema_de_arquivos_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sistema_de_arquivos_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sistema_de_arquivos_autogen_timestamp_deps-Debug-9344d050874b4702ae7c.json",
+					"name" : "sistema_de_arquivos_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug",
+		"source" : "C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

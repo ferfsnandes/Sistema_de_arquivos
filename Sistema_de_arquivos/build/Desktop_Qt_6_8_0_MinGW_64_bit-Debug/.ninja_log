@@ -1,0 +1,23 @@
+# ninja log v6
+587	2218	7515098876486013	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/sistema_de_arquivos_autogen/mocs_compilation.cpp	5112b763334f1035
+5	106	7515099539871760	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	d817a48c6e9c5d0b
+587	2218	7515098876486013	sistema_de_arquivos_autogen/timestamp	5112b763334f1035
+2227	5771	7515098877694405	CMakeFiles/sistema_de_arquivos.dir/main.cpp.obj	e3e86273494bad74
+1132	3511	7515088138125480	CMakeFiles/sistema_de_arquivos.dir/mainwindow.cpp.obj	389d66a2cb9caf8f
+587	2218	7515098876486013	sistema_de_arquivos_autogen/mocs_compilation.cpp	5112b763334f1035
+587	2218	7515098876486013	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/sistema_de_arquivos_autogen/timestamp	5112b763334f1035
+2220	5720	7515098877624354	CMakeFiles/sistema_de_arquivos.dir/sistema_de_arquivos_autogen/mocs_compilation.cpp.obj	d2d0832e51dc1646
+2249	4424	7515098877894059	CMakeFiles/sistema_de_arquivos.dir/file.cpp.obj	c8519a36a31187b7
+3556	4155	7515088162361220	sistema_de_arquivos.exe	b8d5e07ebe66be0
+104	852	7515105291731783	build.ninja	2fd7ea4936cd86d0
+2241	4545	7515098877816111	CMakeFiles/sistema_de_arquivos.dir/directory.cpp.obj	eb44d26037b98ac5
+6	156	7515105341433062	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	d817a48c6e9c5d0b
+209	1440	7515105354768405	sistema_de_arquivos_autogen/timestamp	5112b763334f1035
+209	1440	7515105354768405	sistema_de_arquivos_autogen/mocs_compilation.cpp	5112b763334f1035
+209	1440	7515105354768405	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/sistema_de_arquivos_autogen/timestamp	5112b763334f1035
+209	1440	7515105354768405	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/sistema_de_arquivos_autogen/mocs_compilation.cpp	5112b763334f1035
+1447	4374	7515105355832731	CMakeFiles/sistema_de_arquivos.dir/main.cpp.obj	e3e86273494bad74
+1441	4378	7515105355771249	CMakeFiles/sistema_de_arquivos.dir/sistema_de_arquivos_autogen/mocs_compilation.cpp.obj	d2d0832e51dc1646
+1453	4661	7515105355875842	CMakeFiles/sistema_de_arquivos.dir/mainwindow.cpp.obj	389d66a2cb9caf8f
+4661	5137	7515105387980349	sistema_de_arquivos.exe	f03f9a56ff3d25f9
+6	115	7515105780245284	C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/cmake.verify_globs	d817a48c6e9c5d0b
