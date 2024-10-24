@@ -50,6 +50,7 @@ set(OLD_GLOB
   "C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/file.cpp"
   "C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/main.cpp"
   "C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/mainwindow.cpp"
+  "C:/Users/gafgo/Documents/GitHub/Sistema_de_arquivos/Sistema_de_arquivos/style.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

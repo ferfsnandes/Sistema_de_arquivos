@@ -33,6 +33,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(sistema_de_arquivos
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        style.cpp
     )
 
     # Apenas se usar arquivos de tradução

@@ -18,7 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
+private slots:// função que adciona as operaçoes na tela
     void createFile();
     void deleteFile();
     void resizeFile();
