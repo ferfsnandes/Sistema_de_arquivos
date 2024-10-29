@@ -12,11 +12,17 @@ bool Directory::isDirectory() const {
 }
 
 void Directory::addNode(FileSystemNode* node) {
-    nodes.push_back(node);
+    // Verifica se o nó já está presente, caso não sejam permitidos duplicados
+    if (!nodes.contains(node)) {
+        nodes.push_back(node);
+    }
 }
 
 void Directory::removeNode(FileSystemNode* node) {
-    nodes.removeOne(node);
+    if (nodes.contains(node)) {
+        nodes.removeOne(node);
+        delete node;  // Libera a memória do nó
+    }
 }
 
 QList<FileSystemNode*> Directory::children() const {

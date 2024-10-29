@@ -3,10 +3,7 @@
 
 #include <QMainWindow>
 #include <QTreeView>
-#include <QListView>
-#include <QSplitter>
-#include "directory.h"
-#include "filesystemmodel.h"  // Certifique-se de incluir o modelo personalizado
+#include <QFileSystemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,13 +23,10 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    Directory* rootDir;
-    QTreeView* directoryTreeView;
-    QListView* fileListView;
-    FileSystemModel* fileModel;
+    QTreeView* fileTreeView;
+    QFileSystemModel* fileModel;
 
-    void setupUI();
-    void setupMenus();
+    void setupUI();  // Função para configurar a interface
 };
 
 #endif // MAINWINDOW_H

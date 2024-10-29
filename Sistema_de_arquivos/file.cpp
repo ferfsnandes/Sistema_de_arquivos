@@ -16,5 +16,7 @@ int File::size() const {
 }
 
 void File::setSize(int newSize) {
-    fileSize = newSize;
+    if (newSize >= 0) {  // Validação para garantir um valor de tamanho não negativo
+        fileSize = newSize;
+    }
 }

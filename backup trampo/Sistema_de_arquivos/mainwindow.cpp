@@ -1,120 +1,146 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "file.h"
-#include "filesystemmodel.h"
-
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QProgressDialog>
-#include <QToolBar>
-#include <QAction>
-#include <QSplitter>
 #include <QVBoxLayout>
-#include <QMenuBar>
+#include <QFile>
+#include <QDir>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), rootDir(new Directory("Root"))
+    : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setupUI();
-    setupMenus();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
-    delete rootDir;
 }
-
-
-
-
 
 void MainWindow::setupUI() {
-    QSplitter *splitter = new QSplitter(this);
+    // Configurar o QTreeView para exibir o sistema de arquivos
+    fileTreeView = new QTreeView(this);
+    fileModel = new QFileSystemModel(this);
+    fileModel->setRootPath(QDir::rootPath());  // Use o caminho raiz do sistema operacional
+    fileTreeView->setModel(fileModel);
+    fileTreeView->setRootIndex(fileModel->index(QDir::rootPath()));
 
-    directoryTreeView = new QTreeView(this);
-    fileModel = new FileSystemModel(rootDir, this);
-    directoryTreeView->setModel(fileModel);
+    // Botões para criar, excluir e redimensionar arquivos
+    QPushButton* createButton = new QPushButton("Criar Arquivo", this);
+    QPushButton* deleteButton = new QPushButton("Excluir Arquivo", this);
+    QPushButton* resizeButton = new QPushButton("Redimensionar Arquivo", this);
 
-    fileListView = new QListView(splitter);
-    fileListView->setModel(fileModel);
+    // Conectar os botões aos slots correspondentes
+    connect(createButton, &QPushButton::clicked, this, &MainWindow::createFile);
+    connect(deleteButton, &QPushButton::clicked, this, &MainWindow::deleteFile);
+    connect(resizeButton, &QPushButton::clicked, this, &MainWindow::resizeFile);
 
-    splitter->addWidget(directoryTreeView);
-    splitter->addWidget(fileListView);
+    // Layout
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addWidget(fileTreeView);
+    layout->addWidget(createButton);
+    layout->addWidget(deleteButton);
+    layout->addWidget(resizeButton);
 
-    setCentralWidget(splitter);
-}
-
-
-void MainWindow::setupMenus() {
-    // Barra de ferramentas com ações de criação, exclusão e redimensionamento
-    QToolBar *toolbar = addToolBar("File Operations");
-
-    QAction *createFileAction = new QAction("Criar Arquivo", this);
-    connect(createFileAction, &QAction::triggered, this, &MainWindow::createFile);
-    toolbar->addAction(createFileAction);
-
-    QAction *deleteFileAction = new QAction("Excluir Arquivo", this);
-    connect(deleteFileAction, &QAction::triggered, this, &MainWindow::deleteFile);
-    toolbar->addAction(deleteFileAction);
-
-    QAction *resizeFileAction = new QAction("Redimensionar Arquivo", this);
-    connect(resizeFileAction, &QAction::triggered, this, &MainWindow::resizeFile);
-    toolbar->addAction(resizeFileAction);
+    QWidget* container = new QWidget;
+    container->setLayout(layout);
+    setCentralWidget(container);
 }
 
 void MainWindow::createFile() {
+    QModelIndex index = fileTreeView->currentIndex();
+    if (!index.isValid()) {
+        QMessageBox::warning(this, "Erro", "Nenhum diretório selecionado.");
+        return;
+    }
+
+    QString dirPath = fileModel->filePath(index);
+    if (!QFileInfo(dirPath).isDir()) {
+        QMessageBox::warning(this, "Erro", "A seleção atual não é um diretório.");
+        return;
+    }
+
     bool ok;
     QString name = QInputDialog::getText(this, "Criar Arquivo", "Nome do arquivo:", QLineEdit::Normal, "", &ok);
     if (ok && !name.isEmpty()) {
-        int size = QInputDialog::getInt(this, "Tamanho do Arquivo", "Tamanho inicial (em KB):", 100, 0, 10000, 1, &ok);
-        if (ok) {
-            fileModel->addFile(name, size);  // Chamada ao modelo personalizado
+        QString filePath = QDir(dirPath).filePath(name);
+        QFile file(filePath);
+
+        if (file.exists()) {
+            QMessageBox::warning(this, "Erro", "O arquivo já existe.");
+            return;
         }
+
+        if (file.open(QIODevice::WriteOnly)) {
+            qDebug() << "Arquivo criado:" << filePath;
+            file.close();
+        } else {
+            QMessageBox::warning(this, "Erro", "Falha ao criar o arquivo.");
+        }
+
+        fileModel->setRootPath(fileModel->rootPath());
     }
 }
 
 void MainWindow::deleteFile() {
-    QModelIndex index = directoryTreeView->currentIndex();
+    QModelIndex index = fileTreeView->currentIndex();
     if (!index.isValid()) {
-        QMessageBox::warning(this, "Erro", "Nenhum arquivo selecionado.");
+        QMessageBox::warning(this, "Erro", "Nenhum arquivo ou diretório selecionado.");
         return;
     }
 
-    fileModel->deleteFile(index);
+    QString filePath = fileModel->filePath(index);
+    QFileInfo fileInfo(filePath);
+
+    int result = QMessageBox::warning(this, "Excluir Arquivo", "Tem certeza que deseja excluir " + fileInfo.fileName() + "?",
+                                      QMessageBox::Yes | QMessageBox::No);
+    if (result == QMessageBox::Yes) {
+        if (fileInfo.isFile()) {
+            QFile file(filePath);
+            if (!file.remove()) {
+                QMessageBox::warning(this, "Erro", "Falha ao excluir o arquivo.");
+            }
+        } else if (fileInfo.isDir()) {
+            QDir dir(filePath);
+            if (!dir.removeRecursively()) {
+                QMessageBox::warning(this, "Erro", "Falha ao excluir o diretório.");
+            }
+        }
+
+        fileModel->setRootPath(fileModel->rootPath());
+    }
 }
+
 void MainWindow::resizeFile() {
-    QModelIndex index = directoryTreeView->currentIndex();
+    QModelIndex index = fileTreeView->currentIndex();
     if (!index.isValid()) {
         QMessageBox::warning(this, "Erro", "Nenhum arquivo selecionado.");
         return;
     }
 
-    int rowIndex = index.row();
-    if (rowIndex < 0 || rowIndex >= rootDir->children().size()) {
-        QMessageBox::warning(this, "Erro", "Índice fora do intervalo.");
+    QString filePath = fileModel->filePath(index);
+    QFileInfo fileInfo(filePath);
+
+    if (!fileInfo.isFile()) {
+        QMessageBox::warning(this, "Erro", "A seleção atual não é um arquivo.");
         return;
     }
 
     bool ok;
-    int newSize = QInputDialog::getInt(this, "Redimensionar Arquivo", "Novo tamanho (em KB):", 100, 0, 10000, 1, &ok);
+    int newSize = QInputDialog::getInt(this, "Redimensionar Arquivo", "Novo tamanho (em bytes):", fileInfo.size(), 0, 100000000, 1, &ok);
     if (ok) {
-        File* selectedFile = dynamic_cast<File*>(rootDir->children().at(rowIndex));
-        if (selectedFile) {
-            selectedFile->setSize(newSize);
-
-            QProgressDialog progress("Redimensionando arquivo...", "Cancelar", 0, newSize, this);
-            progress.setWindowModality(Qt::WindowModal);
-            for (int i = 0; i < newSize; ++i) {
-                progress.setValue(i);
-                QCoreApplication::processEvents();
-                if (progress.wasCanceled()) {
-                    break;
-                }
-            }
-            progress.setValue(newSize);
+        QFile file(filePath);
+        if (file.open(QIODevice::ReadWrite)) {
+            file.resize(newSize);  // Redimensiona o arquivo diretamente
+            qDebug() << "Arquivo redimensionado para:" << newSize << "bytes";
+            file.close();
         } else {
-            QMessageBox::warning(this, "Erro", "O item selecionado não é um arquivo.");
+            QMessageBox::warning(this, "Erro", "Falha ao redimensionar o arquivo.");
         }
+
+        fileModel->setRootPath(fileModel->rootPath());
     }
 }

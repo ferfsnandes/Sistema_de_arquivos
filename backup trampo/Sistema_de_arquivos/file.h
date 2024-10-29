@@ -3,17 +3,13 @@
 
 #include "filesystemnode.h"
 
-class Directory;
-
 class File : public FileSystemNode {
 public:
-    File(const QString& name, int size, Directory* parent = nullptr)
-        : FileSystemNode(parent), fileName(name), fileSize(size) {}
-
-    QString name() const override { return fileName; }
-    bool isDirectory() const override { return false; }
-    int size() const { return fileSize; }
-    void setSize(int newSize) { fileSize = newSize; }
+    File(const QString& name, int size);
+    QString name() const override;
+    bool isDirectory() const override;
+    int size() const;
+    void setSize(int newSize);
 
 private:
     QString fileName;
