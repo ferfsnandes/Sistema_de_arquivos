@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QDir>
 #include <QDebug>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -38,12 +39,20 @@ void MainWindow::setupUI() {
     connect(deleteButton, &QPushButton::clicked, this, &MainWindow::deleteFile);
     connect(resizeButton, &QPushButton::clicked, this, &MainWindow::resizeFile);
 
+    searchField = new QLineEdit(this);
+    searchField->setPlaceholderText("Digite o nome do arquivo para buscar");
+
+    searchButton = new QPushButton("Buscar", this);
+    connect(searchButton, &QPushButton::clicked, this, &MainWindow::searchFile);
+
     // Layout
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(fileTreeView);
     layout->addWidget(createButton);
     layout->addWidget(deleteButton);
     layout->addWidget(resizeButton);
+    layout->addWidget(searchField);
+    layout->addWidget(searchButton);
 
     QWidget* container = new QWidget;
     container->setLayout(layout);
@@ -142,5 +151,40 @@ void MainWindow::resizeFile() {
         }
 
         fileModel->setRootPath(fileModel->rootPath());
+    }
+}
+
+void MainWindow::searchFile() {
+    QString fileName = searchField->text().trimmed();
+    if (fileName.isEmpty()) {
+        QMessageBox::warning(this, "Erro", "Digite o nome do arquivo para buscar.");
+        return;
+    }
+
+    // Inicia a busca a partir do diretório raiz
+    QModelIndex rootIndex = fileModel->index(QDir::rootPath());
+    QModelIndex foundIndex;
+
+    // Função lambda recursiva para realizar a busca
+    std::function<bool(const QModelIndex&)> searchRecursively = [&](const QModelIndex& parentIndex) -> bool {
+        for (int i = 0; i < fileModel->rowCount(parentIndex); ++i) {
+            QModelIndex childIndex = fileModel->index(i, 0, parentIndex);
+            if (fileModel->fileName(childIndex) == fileName) {
+                foundIndex = childIndex;
+                return true;
+            }
+            if (fileModel->isDir(childIndex) && searchRecursively(childIndex)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    if (searchRecursively(rootIndex)) {
+        fileTreeView->setCurrentIndex(foundIndex);
+        fileTreeView->scrollTo(foundIndex);
+        QMessageBox::information(this, "Arquivo Encontrado", "Arquivo encontrado: " + fileModel->filePath(foundIndex));
+    } else {
+        QMessageBox::information(this, "Busca", "Arquivo não encontrado.");
     }
 }
