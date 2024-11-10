@@ -155,24 +155,25 @@ void MainWindow::resizeFile() {
 }
 
 void MainWindow::searchFile() {
-    QString fileName = searchField->text().trimmed();
-    if (fileName.isEmpty()) {
-        QMessageBox::warning(this, "Erro", "Digite o nome do arquivo para buscar.");
+    QString partialFileName = searchField->text().trimmed();
+    if (partialFileName.isEmpty()) {
+        QMessageBox::warning(this, "Erro", "Digite parte do nome do arquivo para buscar.");
         return;
     }
 
-    // Inicia a busca a partir do diretório raiz
     QModelIndex rootIndex = fileModel->index(QDir::rootPath());
     QModelIndex foundIndex;
 
-    // Função lambda recursiva para realizar a busca
     std::function<bool(const QModelIndex&)> searchRecursively = [&](const QModelIndex& parentIndex) -> bool {
         for (int i = 0; i < fileModel->rowCount(parentIndex); ++i) {
             QModelIndex childIndex = fileModel->index(i, 0, parentIndex);
-            if (fileModel->fileName(childIndex) == fileName) {
+            QString fileName = fileModel->fileName(childIndex);
+
+            if (fileName.contains(partialFileName, Qt::CaseInsensitive)) {
                 foundIndex = childIndex;
                 return true;
             }
+
             if (fileModel->isDir(childIndex) && searchRecursively(childIndex)) {
                 return true;
             }
