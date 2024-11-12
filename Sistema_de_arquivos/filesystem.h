@@ -99,6 +99,8 @@ void resizeFile(Directory* dir, const std::string& fileName, int newSize) {
         file->resize(newSize);
     }
 }
+signals:
+void sizeChanged(int newSize);
 
 #endif // FILESYSTEM_H
 

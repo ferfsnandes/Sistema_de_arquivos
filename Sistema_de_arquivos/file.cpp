@@ -1,4 +1,5 @@
 #include "file.h"
+#include <QDebug>
 
 File::File(const QString& name, int size)
     : fileName(name), fileSize(size) {}
@@ -16,7 +17,9 @@ int File::size() const {
 }
 
 void File::setSize(int newSize) {
-    if (newSize >= 0) {  // Validação para garantir um valor de tamanho não negativo
+    if (newSize >= 0) {
         fileSize = newSize;
+        qDebug() << "Emitting sizeChanged for" << fileName << "with size" << fileSize;
+        emit sizeChanged(fileName, fileSize);
     }
 }

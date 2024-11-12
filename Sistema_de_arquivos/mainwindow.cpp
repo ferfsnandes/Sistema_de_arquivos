@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "file.h"
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QPushButton>
@@ -9,16 +10,22 @@
 #include <QDir>
 #include <QDebug>
 #include <QLineEdit>
+#include <QDebug>
+
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow), file(new File("examplo.txt", 1024))
 {
     ui->setupUi(this);
     setupUI();
+
+    bool connected = connect(file, &File::sizeChanged, this, &MainWindow::onFileSizeChanged);
+    qDebug() << "Signal-slot connection status:" << connected;
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete file;
 }
 
 void MainWindow::setupUI() {
@@ -143,7 +150,8 @@ void MainWindow::resizeFile() {
     if (ok) {
         QFile file(filePath);
         if (file.open(QIODevice::ReadWrite)) {
-            file.resize(newSize);  // Redimensiona o arquivo diretamente
+            file.resize(newSize);  // Resize the file directly
+            fileModel->setRootPath(fileModel->rootPath());  // Refresh model to reflect new size in GUI
             qDebug() << "Arquivo redimensionado para:" << newSize << "bytes";
             file.close();
         } else {
@@ -153,6 +161,18 @@ void MainWindow::resizeFile() {
         fileModel->setRootPath(fileModel->rootPath());
     }
 }
+
+void MainWindow::onFileSizeChanged(const QString& fileName, int newSize) {
+    qDebug() << "File size changed for:" << fileName << "to" << newSize << "bytes";
+
+
+    QModelIndex fileIndex = fileModel->index(QDir::rootPath() + "/" + fileName);
+
+    if (fileIndex.isValid()) {
+        emit fileModel->dataChanged(fileIndex, fileIndex);
+    }
+}
+
 
 void MainWindow::searchFile() {
     QString partialFileName = searchField->text().trimmed();

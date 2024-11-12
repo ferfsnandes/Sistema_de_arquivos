@@ -252,7 +252,6 @@ Makefile: ../../Sistema_de_arquivos.pro C:/Qt/6.8.0/mingw_64/mkspecs/win32-g++/q
 		C:/Qt/6.8.0/mingw_64/mkspecs/features/resolve_config.prf \
 		C:/Qt/6.8.0/mingw_64/mkspecs/features/exclusive_builds_post.prf \
 		C:/Qt/6.8.0/mingw_64/mkspecs/features/default_post.prf \
-		C:/Qt/6.8.0/mingw_64/mkspecs/features/lrelease.prf \
 		C:/Qt/6.8.0/mingw_64/mkspecs/features/qml_debug.prf \
 		C:/Qt/6.8.0/mingw_64/mkspecs/features/precompile_header.prf \
 		C:/Qt/6.8.0/mingw_64/mkspecs/features/warn_on.prf \
@@ -275,9 +274,7 @@ Makefile: ../../Sistema_de_arquivos.pro C:/Qt/6.8.0/mingw_64/mkspecs/win32-g++/q
 		C:/Qt/6.8.0/mingw_64/lib/Qt6Gui.prl \
 		C:/Qt/6.8.0/mingw_64/lib/Qt6Core.prl \
 		C:/Qt/6.8.0/mingw_64/lib/Qt6EntryPoint.prl \
-		C:/Qt/6.8.0/mingw_64/mkspecs/features/build_pass.prf \
-		debug/qmake_qmake_qm_files.qrc \
-		release/qmake_qmake_qm_files.qrc
+		C:/Qt/6.8.0/mingw_64/mkspecs/features/build_pass.prf
 	$(QMAKE) -o Makefile ..\..\Sistema_de_arquivos.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 C:/Qt/6.8.0/mingw_64/mkspecs/features/spec_pre.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/device_config.prf:
@@ -461,7 +458,6 @@ C:/Qt/6.8.0/mingw_64/mkspecs/features/win32/default_pre.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/resolve_config.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/exclusive_builds_post.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/default_post.prf:
-C:/Qt/6.8.0/mingw_64/mkspecs/features/lrelease.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/qml_debug.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/precompile_header.prf:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/warn_on.prf:
@@ -485,8 +481,6 @@ C:/Qt/6.8.0/mingw_64/lib/Qt6Gui.prl:
 C:/Qt/6.8.0/mingw_64/lib/Qt6Core.prl:
 C:/Qt/6.8.0/mingw_64/lib/Qt6EntryPoint.prl:
 C:/Qt/6.8.0/mingw_64/mkspecs/features/build_pass.prf:
-debug/qmake_qmake_qm_files.qrc:
-release/qmake_qmake_qm_files.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\..\Sistema_de_arquivos.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 

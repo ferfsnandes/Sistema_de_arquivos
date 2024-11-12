@@ -6,6 +6,7 @@
 #include <QFileSystemModel>
 #include <QLineEdit>
 #include <QPushButton>
+#include "file.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,13 +19,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+/*public slots:
+    void onFileSizeChanged(const QString& filePath, int newSize);*/
+
 private slots:
     void createFile();
     void deleteFile();
     void resizeFile();
-    void searchFile();  // Certifique-se de que esta linha está presente
-
+    void onFileSizeChanged(const QString& fileName, int newSize);
+    void searchFile();
 private:
+    File* file;
     Ui::MainWindow *ui;
     QTreeView* fileTreeView;
     QFileSystemModel* fileModel;
